@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 # Import libraries
+import re
 import bs4
 import sys
 import pdfkit
@@ -8,9 +9,8 @@ import progress.bar
 import requests
 
 
-def main(theme):
+def main(url):
     # Global Vars
-    url = "http://hjg.com.ar/vocbib/art/{}.html".format(theme)
     options = {
         "page-size": "Letter",
         "margin-top": "0.75in",
@@ -32,18 +32,18 @@ def main(theme):
             "Jos",
             "Jue",
             "Rut",
-            "1Sa",
-            "2Sa",
+            "1 Sa",
+            "2 Sa",
             "1Re",
-            "2Re",
-            "1Cr",
-            "1Par",
-            "2Cr",
-            "2Par",
+            "2 Re",
+            "1 Cr",
+            "1 Par",
+            "2 Cr",
+            "2 Par",
             "Esd",
             "Neh",
-            "1Mac",
-            "1Mac",
+            "1 Mac",
+            "1 Mac",
             "Tob",
             "Jdt",
             "Est",
@@ -80,26 +80,36 @@ def main(theme):
         "tercera": [
             "Act",
             "Hec",
+            "Hch",
             "Rom",
-            "1Cor",
-            "2Cor",
+            "Rm",
+            "1 Cor",
+            "I Cor",
+            "2 Cor",
+            "1 Co",
+            "2 Co",
             "Gal",
             "Ef",
             "Flp",
             "Col",
-            "1Tes",
-            "2Tes",
-            "1Tim",
-            "2Tim",
+            "1 Tes",
+            "2 Tes",
+            "1 Ts",
+            "2 Ts",
+            "1 Tim",
+            "2 Tim",
+            "1 Tm",
+            "2 Tm",
             "Tit",
             "Flm",
             "Heb",
+            "Hb",
             "Sant",
-            "1Pe",
-            "2Pe",
-            "1Jn",
-            "2Jn",
-            "3Jn",
+            "1 Pe",
+            "2 Pe",
+            "1 Jn",
+            "2 Jn",
+            "3 Jn",
             "Jds",
             "Ap",
         ],
@@ -114,34 +124,33 @@ def main(theme):
     if int(response.status_code) == 200:
         # Parse HTML and save to BeautifulSoup object
         soup = bs4.BeautifulSoup(response.text, "html.parser")
-
-        page = soup.find("div", {"id": "main"})
-        pdfkit.from_string(
-            page.encode("ascii").decode("utf-8"),
-            "{}.pdf".format(theme),
-            options=options,
-            css="dtb.css",
+        page = soup.find("i").getText()
+        patron = re.compile(
+            r"([0-9]\s[A-Z][a-z]+|[A-Z][a-z]+)(\s[0-9],\s[0-9]+\-[0-9]+|\s[0-9],\s[0-9]+\-[0-9]+|\s[0-9],[0-9]+)"
         )
+        p = patron.findall(soup.getText())
 
         # To download the whole data set, let's do a for loop through all a tags
-        bar1 = progress.bar.Bar("Procesando:", max=len(soup.findAll("cite")))
-        for i in range(0, len(soup.findAll("cite"))):
-            one_tag = soup.findAll("cite")[i]
-            quote = one_tag.string.encode().replace(b"\xc2\xa0", b" ").decode()
+        bar1 = progress.bar.Bar("Procesando:", max=len(p))
+        for i in p:
+            quote = i[0] + i[1]
             try:
-                if quote.split(" ")[0] in quotes_type["primera"]:
+                if i[0] in quotes_type["primera"]:
                     type = 1
-                elif quote.split(" ")[0] in quotes_type["segunda"]:
+                elif i[0] in quotes_type["segunda"]:
                     type = 2
-                elif quote.split(" ")[0] in quotes_type["tercera"]:
+                elif i[0] in quotes_type["tercera"]:
                     type = 3
-                elif quote.split(" ")[0] in quotes_type["cuarta"]:
+                elif i[0] in quotes_type["cuarta"]:
                     type = 4
+                else:
+                    type = 0
             except (AttributeError) as e:
                 pass
                 print(e)
 
-            order[type].append(quote)
+            if type > 0:
+                order[type].append(quote)
 
             bar1.next()
         bar1.finish()
@@ -157,7 +166,7 @@ def main(theme):
             total = len(order[4])
 
         tmp = "<!DOCTYPE html><html><head><style>table { width:100%; } table, th, td { border: 1px solid black; border-collapse: collapse; } th, td { padding: 15px; text-align: left; }</style></head><body>"
-        tmp = tmp + '<div id="main"><div class="title">' + theme.title()
+        tmp = tmp + '<div id="main"><div class="title">' + page.title()
         tmp = (
             tmp
             + "</div><table><tr><th>Primera</th><th>Segunda</th><th>Tercera</th><th>Evangelio</th></tr>"
@@ -184,10 +193,7 @@ def main(theme):
         tmp = tmp + "</table></div></body></html>"
 
         pdfkit.from_string(
-            tmp,
-            "{}-lecturas.pdf".format(theme),
-            options=options,
-            css="dtb.css",
+            tmp, "{}-lecturas.pdf".format(page), options=options, css="dtb.css"
         )
 
     else:
@@ -196,5 +202,5 @@ def main(theme):
 
 if __name__ == "__main__":
     # Set the URL you want to webscrape from
-    theme = sys.argv[1]
-    main(theme)
+    url = sys.argv[1]
+    main(url)
