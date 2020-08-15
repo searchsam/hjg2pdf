@@ -3,5 +3,6 @@
 ## Requirements
 
 ```bashscript
+# Fedora
 $ sudo dnf install wkhtmltopdf
 ```
