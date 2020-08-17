@@ -1,0 +1,37 @@
+{
+  "name": "@plasticity/coldbrew",
+  "version": "0.0.0",
+  "description": "Coldbrew is Python compiled into JavaScript using Emscripten. It is the easiest way to run Python code in JavaScript and is developed by Plasticity.",
+  "license": "MIT",
+  "repository": "plasticityai/coldbrew",
+  "homepage": "https://github.com/plasticityai/coldbrew/",
+  "author": "Plasticity Inc. <opensource@plasticity.ai> (https://www.plasticity.ai/)",
+  "main": "MODULE_NAME_LOWER.js",
+  "bugs:": "https://github.com/plasticityai/coldbrew/issues",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "python",
+    "cpython",
+    "emscripten",
+    "native",
+    "webassembly",
+    "wasm",
+    "coldbrew",
+    "python3",
+    "pip",
+    "pypi"
+  ],
+  "dependencies": {
+    "comlinkjs": "^3.1.1",
+    "node-comlink": "^0.3.0",
+    "sync-folders": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.0",
+    "puppeteer": "^1.19.0"
+  }
+}

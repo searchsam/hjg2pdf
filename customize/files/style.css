@@ -1,0 +1,16 @@
+.center-text {
+  text-align: center;
+}
+
+.heading {
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+}
+
+.input {
+  height: 3rem;
+}
+
+.subtitle {
+  margin-top: -2rem;
+}
