@@ -1,5 +1,5 @@
 ######################################################################
-### Customizable Settings 
+### Customizable Settings
 ######################################################################
 ### The settings below are settings you can try and change to
 ### customize your own build of Coldbrew.
@@ -12,7 +12,7 @@ MODULE_NAME = "hjg2pdf"
 NODE = False
 
 # Controls the default amount of memory (must be a multiple of 64KB) to allocate for the program (it can grow beyond this)
-DEFAULT_MEMORY = (64*1024) * 320
+DEFAULT_MEMORY = (64 * 1024) * 320
 
 # This can be helpful for asm.js, but does more harm than good when using WASM
 # AGGRESSIVE_VARIABLE_ELIMINATION="-s AGGRESSIVE_VARIABLE_ELIMINATION=1"
@@ -36,7 +36,7 @@ UNUSED_BUILTIN_MODULES = []
 ### features. Unless you really need to eek out more performance,
 ### it's recommended you leave the values below as they are.
 ######################################################################
-# Compresses the supporting distribution files (.wasm, .data) with zip so that they are smaller and load faster when downloading over the web. 
+# Compresses the supporting distribution files (.wasm, .data) with zip so that they are smaller and load faster when downloading over the web.
 # It's recommended you load Coldbrew with {worker: true} mode when using this, to offload the decompression into its own web worker.
 COMPRESS_NETWORK_FILES = True
 
@@ -52,7 +52,7 @@ JSZIP = True
 ENABLE_THREADING = True
 
 ######################################################################
-### Internal Settings 
+### Internal Settings
 ######################################################################
 ### The settings below are settings only the Coldbrew maintainers
 ### should ever really edit.
