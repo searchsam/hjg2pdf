@@ -3,11 +3,27 @@
   <head>
     <meta charset="utf-8">
     <title>hjg2pdf</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.0/milligram.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton-framework/1.1.1/skeleton.min.css">
+    <link rel="stylesheet" href="styles/style.css">
   </head>
   <body>
-    <h1>Hola Mundo</h1>
+    <div class="container">
+      <div class="center-text heading row">
+        <div class="column">
+          <h1>Léon-Dufour a PDF</h1>
+          <h5 class="subtitle">Descarge la palabra y sus lecturas en pdf.</h5>
+        </div>
+      </div>
+    </div>
+    <form>
+      <div class="row">
+        <div class="column four"></div>
+        <div class="column four">
+          <input class="input u-full-width" type="text" placeholder="Ingrese su Palabra" id="palabra">
+          <input class="u-full-width button-primary" type="submit" value="Buscar">
+        </div>
+      </div>
+    </form>
   </body>
 </html>
