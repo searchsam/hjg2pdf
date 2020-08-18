@@ -11,7 +11,10 @@
     "prebuild": "npm-run-all clean-dist",
     "build": "babel-node server/build.js",
     "postbuild": "babel-node server/distServer.js",
-    "gh-pages": "rimraf docs && cp -r client/dist docs"
+    "clean-docs": "rimraf docs",
+    "build-docs": "cp -r client/dist docs",
+    "beuty-docs": "sh server/genin.sh",
+    "gh-pages": "npm-run-all clean-docs build-docs beuty-docs"
   },
   "dependencies": {},
   "devDependencies": {

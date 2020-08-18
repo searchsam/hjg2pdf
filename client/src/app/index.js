@@ -6,11 +6,11 @@ document.getElementById("buscar").addEventListener("click", e => {
   let theme = document.getElementById("palabra").value;
   let url = `https://hjg.com.ar/vocbib/art/${theme}.html`;
   http
-    .get("http://nodejs.org/dist/index.json", response => {
+    .get(url, response => {
       const {statusCode} = response;
       alert(statusCode);
     })
     .on("error", e => {
-      console.error(`Got error: ${e.message}`);
+      alert(`Got error: ${e.message}`);
     });
 });
