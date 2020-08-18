@@ -1,37 +1,38 @@
 {
-  "name": "@plasticity/coldbrew",
-  "version": "0.0.0",
-  "description": "Coldbrew is Python compiled into JavaScript using Emscripten. It is the easiest way to run Python code in JavaScript and is developed by Plasticity.",
+  "name": "hjg2pdf",
+  "version": "1.0.0",
+  "description": "Léon-Dufour a PDF",
+  "author": "searchsam",
   "license": "MIT",
-  "repository": "plasticityai/coldbrew",
-  "homepage": "https://github.com/plasticityai/coldbrew/",
-  "author": "Plasticity Inc. <opensource@plasticity.ai> (https://www.plasticity.ai/)",
-  "main": "MODULE_NAME_LOWER.js",
-  "bugs:": "https://github.com/plasticityai/coldbrew/issues",
-  "engines": {
-    "node": ">=8.0.0"
+  "scripts": {
+    "start": "babel-node server/server.js",
+    "open:src": "babel-node server/server.js",
+    "clean-dist": "rimraf client/dist",
+    "prebuild": "npm-run-all clean-dist",
+    "build": "babel-node server/build.js",
+    "postbuild": "babel-node server/distServer.js",
+    "gh-page": "cp -r client/dist docs"
   },
-  "keywords": [
-    "python",
-    "cpython",
-    "emscripten",
-    "native",
-    "webassembly",
-    "wasm",
-    "coldbrew",
-    "python3",
-    "pip",
-    "pypi"
-  ],
-  "dependencies": {
-    "comlinkjs": "^3.1.1",
-    "node-comlink": "^0.3.0",
-    "sync-folders": "^2.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "mocha": "^6.2.0",
-    "puppeteer": "^1.19.0"
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "babel-loader": "^8.1.0",
+    "cors": "^2.8.5",
+    "css-loader": "^4.2.1",
+    "express": "^4.17.1",
+    "html-webpack-plugin": "^4.3.0",
+    "mini-css-extract-plugin": "^0.10.0",
+    "open": "^7.1.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "yarn-run-all": "^3.1.1"
   }
 }
