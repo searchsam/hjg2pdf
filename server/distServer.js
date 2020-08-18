@@ -4,6 +4,7 @@ import open from "open";
 import path from "path";
 
 const app = express();
+const cors = require("cors");
 const port = 8002;
 
 app.use(cors());
