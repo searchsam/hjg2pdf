@@ -1,14 +1,16 @@
+const cors = require("cors");
 const express = require("express");
-const path = require("path");
 const open = require("open");
+const path = require("path");
 
-import webpack from "webpack";
 import config from "../webpack.config.dev.js";
+import webpack from "webpack";
 
-const port = 8001;
 const app = express();
 const compiler = webpack(config);
+const port = 8001;
 
+app.use(cors());
 app.use(
   require("webpack-dev-middleware")(compiler, {
     noInfo: true,
@@ -16,14 +18,15 @@ app.use(
   })
 );
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/src/app/index.html"));
 });
 
-app.listen(port, function(err) {
+app.listen(port, err => {
+  console.log(`CORS-enabled web server listening on port ${port}`);
   if (err) {
     console.log(err);
   } else {
-    open("http://localhost:" + port);
+    open(`http://localhost:${port}`);
   }
 });

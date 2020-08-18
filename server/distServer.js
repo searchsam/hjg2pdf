@@ -1,22 +1,24 @@
-import express from "express";
-import path from "path";
-import open from "open";
 import compression from "compression";
+import express from "express";
+import open from "open";
+import path from "path";
 
-const port = 8002;
 const app = express();
+const port = 8002;
 
+app.use(cors());
 app.use(compression());
 app.use(express.static("client/dist"));
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
-app.listen(port, function(err) {
+app.listen(port, err => {
+  console.log(`CORS-enabled web server listening on port ${port}`);
   if (err) {
     console.log(err);
   } else {
-    open("http://localhost:" + port);
+    open(`http://localhost:${port}`);
   }
 });
