@@ -17,7 +17,8 @@
     "gh-pages": "npm-run-all clean-docs build-docs beuty-docs"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "fs": "^0.0.1-security",
+    "requestify": "^0.2.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
