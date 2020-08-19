@@ -10,13 +10,14 @@ const app = express();
 const compiler = webpack(config);
 const port = 8001;
 
-app.use(cors());
 app.use(
   require("webpack-dev-middleware")(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
   })
 );
+
+app.options('*', cors());
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/src/app/index.html"));

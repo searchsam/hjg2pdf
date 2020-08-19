@@ -1,17 +1,21 @@
 import "./index.css";
 
-const http = require("http");
+const fetch = require("node-fetch");
+const Bluebird = require("bluebird");
+
+fetch.Promise = Bluebird;
 
 document.getElementById("buscar").addEventListener("click", e => {
   let theme = document.getElementById("palabra").value;
-  let url = `https://hjg.com.ar/vocbib/art/${theme.toLowerCase()}.html`;
+  const url = `https://hjg.com.ar/vocbib/art/${theme.toLowerCase()}.html`;
+  let response = fetch(url, {
+    method: "GET",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*"
+    }
+  });
 
-  http
-    .get(url, response => {
-      const {statusCode} = response;
-      alert(statusCode);
-    })
-    .on("error", e => {
-      alert(`Got error: ${e.message}`);
-    });
+  console.log(response);
 });

@@ -7,9 +7,10 @@ const app = express();
 const cors = require("cors");
 const port = 8002;
 
-app.use(cors());
 app.use(compression());
 app.use(express.static("client/dist"));
+
+app.options('*', cors());
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));

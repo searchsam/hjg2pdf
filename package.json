@@ -16,7 +16,9 @@
     "beuty-docs": "sh server/genin.sh",
     "gh-pages": "npm-run-all clean-docs build-docs beuty-docs"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
