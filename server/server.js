@@ -1,4 +1,3 @@
-const cors = require("cors");
 const express = require("express");
 const open = require("open");
 const path = require("path");
@@ -17,14 +16,11 @@ app.use(
   })
 );
 
-app.options('*', cors());
-
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/src/app/index.html"));
 });
 
 app.listen(port, err => {
-  console.log(`CORS-enabled web server listening on port ${port}`);
   if (err) {
     console.log(err);
   } else {

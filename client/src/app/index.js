@@ -2,13 +2,27 @@
 
 import "./index.css";
 
-var requestify = require("requestify");
+const JSSoup = require("jssoup").default;
 
-// document.getElementById("buscar").addEventListener("click", e => {
-  let theme = 'agua'; //document.getElementById("palabra").value;
-  const url = `https://hjg.com.ar/vocbib/art/${theme.toLowerCase()}.html`;
+let getTheme = word => {
+  const request = new XMLHttpRequest();
 
-  requestify.get(url).then(response => {
-    console.log(response.code);
-  });
-// });
+  let proxy = "https://cors-anywhere.herokuapp.com/";
+  let url = `https://hjg.com.ar/vocbib/art/${word.toLowerCase()}.html`;
+
+  request.open("GET", proxy + url, true);
+  request.onload = () => {
+    if (request.status == 200) {
+      let soup = new JSSoup(request.responseText, false);
+      let theme = soup.find("div", {id: "main"}).text;
+      console.log(theme);
+    } else {
+      console.log("Tema no encontrado.");
+    }
+  };
+  request.send();
+};
+
+document.getElementById("buscar").addEventListener("click", e => {
+  getTheme("agua");
+});

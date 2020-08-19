@@ -29,5 +29,7 @@ export default {
         use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
-  }
+  },
+  target: "node",
+  node: {fs: "empty"}
 };

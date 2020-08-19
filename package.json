@@ -11,14 +11,13 @@
     "prebuild": "npm-run-all clean-dist",
     "build": "babel-node server/build.js",
     "postbuild": "babel-node server/distServer.js",
-    "clean-docs": "rimraf docs",
-    "build-docs": "cp -r client/dist docs",
-    "beuty-docs": "sh server/genin.sh",
-    "gh-pages": "npm-run-all clean-docs build-docs beuty-docs"
+    "predeploy": "rimraf docs",
+    "deploy": "cp -r client/dist docs",
+    "postdeploy": "sh server/genin.sh"
   },
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "requestify": "^0.2.5"
+    "jssoup": "^0.0.12",
+    "pdfkit": "^0.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -27,7 +26,6 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
     "babel-loader": "^8.1.0",
-    "cors": "^2.8.5",
     "css-loader": "^4.2.1",
     "express": "^4.17.1",
     "html-webpack-plugin": "^4.3.0",

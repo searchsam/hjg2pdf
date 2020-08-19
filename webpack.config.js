@@ -40,5 +40,7 @@ export default {
         ]
       }
     ]
-  }
+  },
+  target: "node",
+  node: {fs: "empty"}
 };
