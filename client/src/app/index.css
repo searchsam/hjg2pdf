@@ -1,6 +1,24 @@
-.buton {
+#ayuda {
+  font-size: .8rem;
+  margin-bottom: 1.5rem;
+  margin-top: -20px;
+  text-align: center;
+}
+
+#buscar {
   font-size: 0.8rem;
   font-weight: bold;
+}
+
+#mensaje {
+  color: red;
+  text-align: center;
+}
+
+#palabra {
+  font-size: 1rem;
+  height: 3rem;
+  text-align: center;
 }
 
 .center-text {
@@ -8,13 +26,8 @@
 }
 
 .heading {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   margin-top: 5rem;
-}
-
-.input {
-  font-size: 1rem;
-  height: 3rem;
 }
 
 .subtitle {

@@ -7,19 +7,50 @@ import Helvetica from "!!raw-loader!pdfkit/js/data/Helvetica.afm";
 fs.writeFileSync("data/Helvetica.afm", Helvetica);
 
 const blobStream = require("blob-stream");
-const Entities = require("html-entities").XmlEntities;
 const JSSoup = require("jssoup").default;
 const PDFDocument = require("pdfkit").default;
 
 const doc = new PDFDocument({size: "LETTER", margin: 50});
 const request = new XMLHttpRequest();
 const stream = doc.pipe(blobStream());
-const entities = new Entities();
 const a = document.createElement("a");
 const proxy = "https://cors-anywhere.herokuapp.com/";
 
 document.body.appendChild(a);
 a.style = "display: none";
+
+let setInputFilter = (textbox, inputFilter) => {
+  [
+    "input",
+    "keydown",
+    "keyup",
+    "mousedown",
+    "mouseup",
+    "select",
+    "contextmenu",
+    "drop"
+  ].forEach(event => {
+    textbox.addEventListener(event, () => {
+      if (inputFilter(textbox.value)) {
+        textbox.oldValue = textbox.value;
+        textbox.oldSelectionStart = textbox.selectionStart;
+        textbox.oldSelectionEnd = textbox.selectionEnd;
+      } else if (textbox.hasOwnProperty("oldValue")) {
+        textbox.value = textbox.oldValue;
+        textbox.setSelectionRange(
+          textbox.oldSelectionStart,
+          textbox.oldSelectionEnd
+        );
+      } else {
+        textbox.value = "";
+      }
+    });
+  });
+};
+
+setInputFilter(document.getElementById("palabra"), value =>
+  /^[a-zñ]*$/i.test(value)
+);
 
 let topicExists = url => {
   request.open("GET", proxy + url, false);
@@ -44,12 +75,10 @@ let loadTheme = (word, soup) => {
     .find("div", {id: "main"})
     .findAll("p")
     .forEach(p => {
-      doc
-        .moveDown()
-        .text(p.text.replace(/(\r\n|\n|\r)/gm, " "), {
-          align: "justify",
-          ellipsis: true
-        });
+      doc.moveDown().text(p.text.replace(/(\r\n|\n|\r)/gm, " "), {
+        align: "justify",
+        ellipsis: true
+      });
     });
   doc.end();
 };
@@ -68,8 +97,13 @@ let downloadDoc = word => {
   });
 };
 
-document.getElementById("buscar").addEventListener("click", e => {
-  let word = document.getElementById('palabra').value;
+let main = word => {
+  if (word.split(" ").length > 1 || word == "") {
+    console.log("Error en su palabra.");
+    document.getElementById("mensaje").textContent = "Palabra no valida.";
+    return;
+  }
+
   let url = `https://hjg.com.ar/vocbib/art/${word.toLowerCase()}.html`;
 
   if (topicExists(url)) {
@@ -79,5 +113,19 @@ document.getElementById("buscar").addEventListener("click", e => {
     window.location.reload(false);
   } else {
     console.log("Tema no encontrado.");
+    document.getElementById("mensaje").textContent = "Palabra no encontrada.";
+    return;
   }
+};
+
+let word = document.getElementById("palabra");
+
+document.getElementById("buscar").addEventListener("click", event => {
+  event.preventDefault();
+  main(word.value);
+});
+
+document.getElementById("formulario").addEventListener("submit", event => {
+  event.preventDefault();
+  main(word.value);
 });
