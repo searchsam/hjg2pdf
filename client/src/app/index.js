@@ -80,6 +80,155 @@ let loadTheme = (word, soup) => {
         ellipsis: true
       });
     });
+  // doc.end();
+};
+
+let loadReadings = (word, soup) => {
+  let order = {1: [], 2: [], 3: [], 4: []};
+  let quotesType = {
+    primera: [
+      "Gen",
+      "Ex",
+      "Lev",
+      "Num",
+      "Dt",
+      "Jos",
+      "Jue",
+      "Rut",
+      "1Sa",
+      "2Sa",
+      "1Re",
+      "2Re",
+      "1Cr",
+      "1Par",
+      "2Cr",
+      "2Par",
+      "Esd",
+      "Neh",
+      "1Mac",
+      "1Mac",
+      "Tob",
+      "Jdt",
+      "Est",
+      "Job",
+      "Sal",
+      "Prov",
+      "Ecl",
+      "Qo",
+      "Cant",
+      "Sab",
+      "Eclo",
+      "Sir"
+    ],
+    segunda: [
+      "Is",
+      "Jer",
+      "Lam",
+      "Bar",
+      "Ez",
+      "Dan",
+      "Os",
+      "Jl",
+      "Am",
+      "Abd",
+      "Jon",
+      "Miq",
+      "Nah",
+      "Hab",
+      "Sof",
+      "Ag",
+      "Zac",
+      "Mal"
+    ],
+    tercera: [
+      "Act",
+      "Hec",
+      "Rom",
+      "1Cor",
+      "2Cor",
+      "Gal",
+      "Ef",
+      "Flp",
+      "Col",
+      "1Tes",
+      "2Tes",
+      "1Tim",
+      "2Tim",
+      "Tit",
+      "Flm",
+      "Heb",
+      "Sant",
+      "1Pe",
+      "2Pe",
+      "1Jn",
+      "2Jn",
+      "3Jn",
+      "Jds",
+      "Ap"
+    ],
+    cuarta: ["Mt", "Mc", "Lc", "Jn"]
+  };
+  let type = 0;
+
+  soup.findAll("cite").forEach(cite => {
+    try {
+      if (quotesType["primera"].includes(cite.text.split(/(\s+)/)[0])) type = 1;
+      if (quotesType["segunda"].includes(cite.text.split(/(\s+)/)[0])) type = 2;
+      if (quotesType["tercera"].includes(cite.text.split(/(\s+)/)[0])) type = 3;
+      if (quotesType["cuarta"].includes(cite.text.split(/(\s+)/)[0])) type = 4;
+    } catch (error) {}
+    order[type].push(cite.text);
+  });
+
+  let total = 0;
+  if (order[1].length > total) total = order[1].length;
+  if (order[2].length > total) total = order[2].length;
+  if (order[3].length > total) total = order[3].length;
+  if (order[4].length > total) total = order[4].length;
+
+  doc.addPage();
+  doc
+    .fontSize(20)
+    .text(word.replace(word[0], word[0].toUpperCase()) + " Lecturas", {
+      align: "center"
+    });
+  doc.fontSize(11);
+  doc
+    .text("Primera Lectura", 50, 100)
+    .text("Segunda Lectura", 175, 100)
+    .text("Tercera Lectura", 300, 100)
+    .text("Evangelio", 425, 100);
+  doc
+    .strokeColor("#aaaaaa")
+    .lineWidth(1)
+    .moveTo(50, 115)
+    .lineTo(550, 115)
+    .stroke();
+
+  let vspace = 120;
+  let iterator = 0;
+  for (const x of Array(total).keys()) {
+    doc
+      .text(order[1][x], 50, vspace + 20 * iterator)
+      .text(order[2][x], 175, vspace + 20 * iterator)
+      .text(order[3][x], 300, vspace + 20 * iterator)
+      .text(order[4][x], 425, vspace + 20 * iterator);
+
+    doc
+      .strokeColor("#aaaaaa")
+      .lineWidth(1)
+      .moveTo(50, vspace + 15 + 20 * iterator)
+      .lineTo(550, vspace + 15 + 20 * iterator)
+      .stroke();
+
+    iterator++;
+    if (x == 30 || x == 64) {
+      doc.addPage();
+      vspace = 50;
+      iterator = 0;
+    }
+  }
+
   doc.end();
 };
 
@@ -98,22 +247,30 @@ let downloadDoc = word => {
 };
 
 let main = word => {
+  let mensaje = document.getElementById("mensaje");
+
   if (word.split(" ").length > 1 || word == "") {
-    console.log("Error en su palabra.");
-    document.getElementById("mensaje").textContent = "Palabra no valida.";
+    mensaje.classList.add("error");
+    mensaje.textContent = "Palabra no valida.";
     return;
   }
 
   let url = `https://hjg.com.ar/vocbib/art/${word.toLowerCase()}.html`;
 
   if (topicExists(url)) {
+    mensaje.classList.add("success");
+    mensaje.textContent = "Palabra encontrada.";
+    alert("Palabra encontrada.");
     let soup = getTheme(url);
     loadTheme(word, soup);
+    // downloadDoc(word);
+    loadReadings(word, soup);
     downloadDoc(word);
     window.location.reload(false);
   } else {
-    console.log("Tema no encontrado.");
-    document.getElementById("mensaje").textContent = "Palabra no encontrada.";
+    mensaje.classList.add("error");
+    mensaje.textContent = "Palabra no encontrada.";
+    alert("Palabra no encontrada.");
     return;
   }
 };
