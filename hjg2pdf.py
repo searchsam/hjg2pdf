@@ -10,7 +10,7 @@ import requests
 
 def main(theme):
     # Global Vars
-    url = "http://hjg.com.ar/vocbib/art/{}.html".format(theme)
+    url = "https://hjg.com.ar/vocbib/art/{}.html".format(theme)
     options = {
         "page-size": "Letter",
         "margin-top": "0.75in",
