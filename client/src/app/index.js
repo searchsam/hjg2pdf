@@ -14,7 +14,7 @@ const doc = new PDFDocument({size: "LETTER", margin: 50});
 const request = new XMLHttpRequest();
 const stream = doc.pipe(blobStream());
 const a = document.createElement("a");
-const proxy = "https://cors-anywhere.herokuapp.com/";
+const proxy = "https://api.allorigins.win/get?url=";
 
 document.body.appendChild(a);
 a.style = "display: none";
@@ -54,7 +54,7 @@ setInputFilter(document.getElementById("palabra"), value =>
 
 let topicExists = url => {
   request.open("GET", proxy + url, false);
-  request.overrideMimeType("text/xml; charset=iso-8859-1");
+//   request.overrideMimeType("text/xml; charset=iso-8859-1");
   request.send(null);
 
   if (request.status == 200) return true;
@@ -75,7 +75,7 @@ let loadTheme = (word, soup) => {
     .find("div", {id: "main"})
     .findAll("p")
     .forEach(p => {
-      doc.moveDown().text(p.text.replace(/(\r\n|\n|\r)/gm, " "), {
+      doc.moveDown().text(p.text.replace(/\r\n|\n|\r/gm, " "), {
         align: "justify",
         ellipsis: true
       });
@@ -169,14 +169,17 @@ let loadReadings = (word, soup) => {
     cuarta: ["Mt", "Mc", "Lc", "Jn"]
   };
   let type = 0;
-
+  let i = 0
   soup.findAll("cite").forEach(cite => {
+//     console.log(cite.text)
+//     console.log(cite.text.split(/�/))
     try {
-      if (quotesType["primera"].includes(cite.text.split(/(\s+)/)[0])) type = 1;
-      if (quotesType["segunda"].includes(cite.text.split(/(\s+)/)[0])) type = 2;
-      if (quotesType["tercera"].includes(cite.text.split(/(\s+)/)[0])) type = 3;
-      if (quotesType["cuarta"].includes(cite.text.split(/(\s+)/)[0])) type = 4;
-    } catch (error) {}
+      if (quotesType["primera"].includes(cite.text.split(/�/)[0])) type = 1;
+      if (quotesType["segunda"].includes(cite.text.split(/�/)[0])) type = 2;
+      if (quotesType["tercera"].includes(cite.text.split(/�/)[0])) type = 3;
+      if (quotesType["cuarta"].includes(cite.text.split(/�/)[0])) type = 4;
+    } catch (error) { }
+    console.log(type)
     order[type].push(cite.text);
   });
 
@@ -254,9 +257,9 @@ let main = word => {
     mensaje.textContent = "Palabra no valida.";
     return;
   }
-
+  
   let url = `https://hjg.com.ar/vocbib/art/${word.toLowerCase()}.html`;
-
+  
   if (topicExists(url)) {
     mensaje.classList.add("success");
     mensaje.textContent = "Palabra encontrada.";
