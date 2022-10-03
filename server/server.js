@@ -7,7 +7,7 @@ import webpack from "webpack";
 
 const app = express();
 const compiler = webpack(config);
-const port = 8001;
+const port = 3000;
 
 app.use(
   require("webpack-dev-middleware")(compiler, {

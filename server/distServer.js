@@ -4,7 +4,7 @@ import open from "open";
 import path from "path";
 
 const app = express();
-const port = 8002;
+const port = 3001;
 
 app.use(compression());
 app.use(express.static("client/dist"));
