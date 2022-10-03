@@ -7,7 +7,7 @@ set -e
 yarn run build
 
 # navigate into the build output directory
-cp -r dist docs
+mv dist docs
 
 git add -A
 git commit -m 'deploy'
