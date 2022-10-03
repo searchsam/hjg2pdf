@@ -3,14 +3,16 @@
 # abort on errors
 set -e
 
+rm -rf dist
+
 # build
 yarn run build
+
+rm -rf docs
 
 # navigate into the build output directory
 mv dist docs
 
-git add -A
+git add .
 git commit -m 'deploy'
-
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
 git push
