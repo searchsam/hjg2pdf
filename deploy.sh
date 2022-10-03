@@ -3,12 +3,18 @@
 # abort on errors
 set -e
 
-rm -rf dist
+if [ -d "dist" ]
+then
+    rm -rf dist
+fi
 
 # build
 yarn run build
 
-rm -rf docs
+if [ -d "docs" ]
+then
+    rm -rf docs
+fi
 
 # navigate into the build output directory
 mv dist docs
