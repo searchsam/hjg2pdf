@@ -1,46 +1,44 @@
 {
   "name": "hjg2pdf",
-  "version": "1.0.0",
-  "description": "Léon-Dufour a PDF",
-  "author": "searchsam",
-  "license": "MIT",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "babel-node server/server.js",
-    "open:src": "babel-node server/server.js",
-    "clean-dist": "rimraf client/dist",
-    "prebuild": "npm-run-all clean-dist",
-    "build": "babel-node server/build.js",
-    "postbuild": "babel-node server/distServer.js",
-    "predeploy": "rimraf docs",
-    "deploy": "cp -r client/dist docs",
-    "postdeploy": "sh server/genin.sh"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "deploy": "sh deploy.sh"
   },
   "dependencies": {
-    "blob-stream": "^0.1.3",
-    "jssoup": "^0.0.12",
-    "pdfkit": "^0.11.0"
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/register": "^7.10.5",
-    "babel-loader": "^8.1.0",
-    "brfs": "^2.0.2",
-    "css-loader": "^4.2.1",
-    "express": "^4.17.1",
-    "html-webpack-plugin": "^4.3.0",
-    "mini-css-extract-plugin": "^0.10.0",
-    "open": "^7.1.0",
-    "raw-loader": "^4.0.1",
-    "sass": "^1.26.10",
-    "sass-loader": "^9.0.3",
-    "style-loader": "^1.2.1",
-    "transform-loader": "^0.2.4",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "yarn-run-all": "^3.1.1"
-  }
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
